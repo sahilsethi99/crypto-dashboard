@@ -6,6 +6,7 @@ import Overview from './Overview'
 import ChartFilters from './ChartFilters'
 import StockContext from '../context/StockContext'
 import { fetchHistoricalData, fetchQuote } from '../api/stock-api'
+import Chart from './Chart'
 
 const Dashboard = () => {
     const {stockSymbol} = useContext(StockContext);
@@ -64,7 +65,8 @@ const Dashboard = () => {
             {/* <Card>Filters</Card> */}
         </div>
         <div className="md:col-span-2 xl:col-span-3 row-span-4">
-            <Card>Chart</Card>
+            {/* <Card>Chart</Card> */}
+            <Chart/>
         </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Card from './Card';
 import { mockHistoricalData } from '../constants/mockData';
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { convertDateToUnixTimestamp,convertUnixTimestampToDate, createDate } from '../utils/date-helpers';
 import { fetchHistoricalData } from '../api/stock-api';
@@ -9,6 +9,31 @@ import StockContext from '../context/StockContext';
 import { chartConfig } from '../constants/config';
 
 const Chart = () => {
+
+    // Price data (Monthly)
+const priceData = [
+    { date: "Jan 2024", low: 224.14, high: 228.0 },
+    { date: "Feb 2024", low: 223.56, high: 227.1 },
+    { date: "Mar 2024", low: 220.12, high: 225.6 },
+    { date: "Apr 2024", low: 221.78, high: 226.5 }
+  ];
+  
+  // Volume data (More granular - e.g., weekly within months)
+  const volumeData = [
+    { date: "Jan Week 1", volume: 37245100 },
+    { date: "Jan Week 2", volume: 48251234 },
+    { date: "Jan Week 3", volume: 39562890 },
+    { date: "Jan Week 4", volume: 45123450 },
+    { date: "Feb Week 1", volume: 33256789 },
+    { date: "Feb Week 2", volume: 47236891 },
+    { date: "Feb Week 3", volume: 39284710 },
+    { date: "Mar Week 1", volume: 37245100 },
+    { date: "Mar Week 2", volume: 48251234 },
+    { date: "Mar Week 3", volume: 39562890 },
+    { date: "Mar Week 4", volume: 45123450 },
+    { date: "Apr Week 1", volume: 33256789 },
+    { date: "Apr Week 2", volume: 47236891 }
+  ];
 
     const [data,setData] = useState([
         { date: "09/01/2024", low: 224.14, high: 228.0, volume: 37245100 },
@@ -65,35 +90,47 @@ const Chart = () => {
 return (
     <Card>
         <ResponsiveContainer>
-        <AreaChart data={data}>
-        {/* Gradient Definition */}
-        <defs>
-          <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#8884d8" stopOpacity={0.8} />
-            <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
-          </linearGradient>
-        </defs>
+        <ComposedChart data={priceData}> 
+  {/* Gradient Definition */}
+  <defs>
+    <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#8884d8" stopOpacity={0.8} />
+      <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
+    </linearGradient>
+  </defs>
 
-        {/* Grid and Axes */}
-        <CartesianGrid vertical={true} horizontal={false} />
-        <XAxis dataKey="date" />
-        <YAxis domain={['dataMin', 'dataMax']} />
+  {/* Grid and Axes */}
+  <CartesianGrid vertical={true} horizontal={false} />
+  <XAxis dataKey="date" />  {/* X-Axis for Price Data */}
+  <YAxis yAxisId="left" domain={['dataMin', 'dataMax']} />  {/* Y-Axis for Price */}
 
-        {/* Tooltip to show price details on hover */}
-        <Tooltip />
+  {/* Right Y-Axis for Volume (hidden) */}
+  <YAxis yAxisId="right" orientation="right" hide={true} />
 
-        {/* Area Chart with Linear Connection for Straight Lines */}
-        <Area
-          type="linear"  // Linear for straight lines between points
-          dataKey="high"
-          stroke="#8884d8"
-          fillOpacity={1}
-          fill="url(#colorPrice)"
-        />
-            
-      </AreaChart>
+  {/* Tooltip to show price and volume details on hover */}
+  <Tooltip />
 
-        
+  {/* Area Chart with Linear Connection for Straight Lines */}
+  <Area
+    yAxisId="left"
+    type="linear"  // Linear for straight lines between points
+    dataKey="high"
+    stroke="#8884d8"
+    fillOpacity={1}
+    fill="url(#colorPrice)"
+  />
+  
+  {/* Bar Chart for Volume */}
+  <Bar
+    yAxisId="right"
+    data={volumeData}  // Same X-Axis as price chart (matches timestamps)
+    dataKey="volume"
+    fill="#000000"
+    barSize={5}
+    opacity={0.5}
+  />
+</ComposedChart>
+
     </ResponsiveContainer>
     </Card>
     // <div>Chart</div>

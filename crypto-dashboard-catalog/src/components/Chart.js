@@ -53,7 +53,11 @@ const Chart = () => {
     //   };
       const fetchYahooFinanceData = async () => {
         try {
-          const result = await fetchHistoricalData(stockSymbol);
+            console.log(filter);
+            console.log(chartFilterConfig);
+            console.log(chartFilterConfig.filter);
+            const {interval, range}=chartFilterConfig[filter];
+          const result = await fetchHistoricalData(stockSymbol,interval,range);
           
           
           const { timestamp, indicators } = result.chart.result[0];
@@ -111,7 +115,7 @@ const Chart = () => {
 return (
     <Card>
         {/* <ChartFilters/> */}
-        <ResponsiveContainer>
+        <ResponsiveContainer className="mx-[-5rem]">
         <ComposedChart data={priceData}> 
   {/* Gradient Definition */}
   <defs>
@@ -140,7 +144,7 @@ return (
     yAxisId="left"
     type="linear"  // Linear for straight lines between points
     dataKey="high"
-    stroke="#8884d8"
+    stroke="#3730a3"
     fillOpacity={1}
     fill="url(#colorPrice)"
   />
@@ -150,7 +154,7 @@ return (
     yAxisId="right"
     data={volumeData}  // Same X-Axis as price chart (matches timestamps)
     dataKey="volume"
-    fill="#000000"
+    fill="#D1D5DB"
     barSize={5}
     opacity={0.5}
   />

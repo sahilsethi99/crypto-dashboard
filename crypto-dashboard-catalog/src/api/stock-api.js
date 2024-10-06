@@ -27,8 +27,9 @@ export const fetchQuote = async (symbol)=>{
 
 export const fetchHistoricalData = async (symbol, interval='1d',range='1mo')=>{
     const url = `https://query2.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${interval}&range=${range}`;
+    console.log('url ',url);
     const response = await fetch(url);
-
+    console.log('response ',response);
     if(!response.ok){
         const message = `Some error occured: ${response.status}`;
         throw new Error(message);

@@ -7,6 +7,7 @@ import ChartFilters from './ChartFilters'
 import StockContext from '../context/StockContext'
 import { fetchHistoricalData, fetchQuote } from '../api/stock-api'
 import Chart from './Chart'
+import MenuFilters from './MenuFilters'
 
 const Dashboard = () => {
     const {stockSymbol} = useContext(StockContext);
@@ -58,15 +59,16 @@ const Dashboard = () => {
              {/* <Overview price={300000} change={30} changePercent={10.0} symbol={"USD"}/> */}
         </div>
         <div className="col-span-1 md:col-span-2 xl:col-span-3 row-span-1">
-            <Card>Menu Options</Card>
+            {/* <Card>Menu Options</Card> */}
+           <MenuFilters/>
         </div>
         <div className="col-span-1 md:col-span-2 xl:col-span-3 row-span-1">
             <ChartFilters/>
             {/* <Card>Filters</Card> */}
         </div>
-        <div className="md:col-span-2 xl:col-span-3 row-span-4">
+        <div className="md:col-span-2 xl:col-span-3 row-span-4 ">
             {/* <Card>Chart</Card> */}
-            <Chart/>
+            <Chart className=""/>
         </div>
     </div>
   )

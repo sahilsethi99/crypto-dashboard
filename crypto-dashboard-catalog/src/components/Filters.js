@@ -6,8 +6,8 @@ const Filter = ({text, active, onClick}) => {
         onClick={onClick}
         className={`w-8 mx-2 hx-8 border-none rounded-md flex items-center justify-center cursor-pointer
          ${active 
-            ? "bg-indigo-600 border-indigo-700 text-gray-100"
-            : "border-indigo-300 text-gray-700"
+            ? "bg-[#4B40EE] border-indigo-700 text-gray-100"
+            : "border-indigo-300 text-gray-600"
              }`}
     >
         {text}

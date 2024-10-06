@@ -8,9 +8,11 @@ import StockContext from '../context/StockContext'
 import { fetchHistoricalData, fetchQuote } from '../api/stock-api'
 import Chart from './Chart'
 import MenuFilters from './MenuFilters'
+import ThemeContext from '../context/ThemeContext'
 
 const Dashboard = () => {
     const {stockSymbol} = useContext(StockContext);
+    const {darkMode} = useContext(ThemeContext);
 
     const [quote, setQuote] = useState({regularMarketPrice:"0"});
     
@@ -45,8 +47,8 @@ const Dashboard = () => {
     }, [stockSymbol]);
 
   return (
-    <div className="h-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 auto-rows-fr gap-6 p-10 font-tinos bg-neutral-100">
-        <div className="col-span-1 md:col-span-1 xl:col-span-1 row-span-2 flex justify-start items-center">
+    <div className={`h-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 auto-rows-fr gap-6 p-10 font-tinos  ${darkMode? "bg-gray-900 text-gray-300" : "bg-none"}`}>
+        <div className="col-span-1 md:col-span-1 xl:col-span-1 row-span-2 flex justify-start items-center ">
             {/* <Card>Header</Card>
              */}
              {/* <Header name={mockCompanyDetails.companyName}/> */}

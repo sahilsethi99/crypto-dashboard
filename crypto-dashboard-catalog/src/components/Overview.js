@@ -11,7 +11,7 @@ const Overview = ({price, change, changePercent,symbol}) => {
             <span className="absolute text-neutral-400 text-sm">{symbol}</span>
             
             </div>
-        <span className={`text-sm xl:text-base 2xl:text-base ${change>0 ? "text-lime-500" : "text-red-500"}`}>+ {change} <span>({changePercent}%)</span>
+        <span className={`text-sm xl:text-base 2xl:text-base ${change>0 ? "text-lime-500" : "text-red-500"}`}>{ (change>0) ? `+` : `` }{change} <span>({changePercent}%)</span>
         </span>
         </div>
     </Card>

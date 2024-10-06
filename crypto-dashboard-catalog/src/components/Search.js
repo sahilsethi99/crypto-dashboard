@@ -6,15 +6,27 @@ import { searchSymbols } from '../api/stock-api';
 
 const Search = () => {
     const [input, setInput] = useState("");
-    const [bestMatches, setBestMatches] = useState(mockSearchResults.quotes);
+    const [bestMatches, setBestMatches] = useState([]);
 
     const clear = () => {
         setInput("");
         setBestMatches([]);
     };
 
-    const updateBestMatches = () => {
-        setBestMatches(mockSearchResults.quotes)
+    const updateBestMatches = async () => {
+        try{
+            if(input){
+                const searchResults = await searchSymbols(input);
+                const result = searchResults.quotes;
+                setBestMatches(result);
+            }
+
+        } catch(e){
+            setBestMatches([]);
+            console.log(e);
+        }
+
+        // setBestMatches(mockSearchResults.quotes)
     }
   return (
     <div className="flex items-center my-4 border-2 rounded-md relative z-50 w-96 bg-white border-neutral-200">

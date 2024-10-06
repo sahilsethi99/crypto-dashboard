@@ -14,7 +14,7 @@ export const searchSymbols = async (query)=>{
 }
 
 export const fetchQuote = async (symbol)=>{
-    const url = `${basePath2}/quote?symbols=${symbol}`;
+    const url = `https://query2.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`;
     const response = await fetch(url);
 
     if(!response.ok){

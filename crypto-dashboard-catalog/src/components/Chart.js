@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Card from './Card';
 import { mockHistoricalData } from '../constants/mockData';
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { convertDateToUnixTimestamp,convertUnixTimestampToDate, createDate } from '../utils/date-helpers';
 import { fetchHistoricalData } from '../api/stock-api';
@@ -11,42 +11,14 @@ import { chartConfig } from '../constants/config';
 const Chart = () => {
 
     const [data,setData] = useState([
-        {
-          date: '09/01/2024',
-          low: 224.14,
-          high: 228.0
-        },
-        {
-          date: '09/02/2024',
-          low: 223.56,
-          high: 227.1
-        },
-        {
-          date: '09/03/2024',
-          low: 220.12,
-          high: 225.6
-        },
-        {
-          date: '09/04/2024',
-          low: 221.78,
-          high: 226.5
-        },
-        {
-          date: '09/05/2024',
-          low: 222.34,
-          high: 227.8
-        },
-        {
-          date: '09/06/2024',
-          low: 225.45,
-          high: 229.1
-        },
-        {
-          date: '09/07/2024',
-          low: 224.11,
-          high: 228.9
-        },
-        // Add more data points as per the range
+        { date: "09/01/2024", low: 224.14, high: 228.0, volume: 37245100 },
+        { date: "09/02/2024", low: 223.56, high: 227.1, volume: 48251234 },
+        { date: "09/03/2024", low: 220.12, high: 225.6, volume: 39562890 },
+        { date: "09/04/2024", low: 221.78, high: 226.5, volume: 45123450 },
+        { date: "09/05/2024", low: 222.34, high: 227.8, volume: 33256789 },
+        { date: "09/06/2024", low: 225.45, high: 229.1, volume: 47236891 },
+        { date: "09/07/2024", low: 224.11, high: 228.9, volume: 39284710 }
+      
       ]
       );
     const [filter,setFilter] = useState("1w");
@@ -103,7 +75,7 @@ return (
         </defs>
 
         {/* Grid and Axes */}
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid vertical={true} horizontal={false} />
         <XAxis dataKey="date" />
         <YAxis domain={['dataMin', 'dataMax']} />
 
@@ -118,7 +90,10 @@ return (
           fillOpacity={1}
           fill="url(#colorPrice)"
         />
+            
       </AreaChart>
+
+        
     </ResponsiveContainer>
     </Card>
     // <div>Chart</div>

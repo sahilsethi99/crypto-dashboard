@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { chartConfig } from '../constants/config'
 import Filter from './Filters'
+import FilterContext from '../context/FilterContext'
 
 const ChartFilters = () => {
     
-    const [filter,setFilter] = useState("1w");
+    const {filter,setFilter} = useContext(FilterContext);
   return (
     <ul className="flex">
         {Object.keys(chartConfig).map((item) => {

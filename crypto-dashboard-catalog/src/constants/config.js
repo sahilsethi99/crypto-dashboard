@@ -8,3 +8,13 @@ export const chartConfig = {
     
     
 }
+
+export const chartFilterConfig = {
+    "1d" : {interval: '1d', range:'1mo'},
+    "3d" : {interval: '3d', range:'1mo'},
+    "1w" : {interval: '1wk', range:'1y'},
+    "1m" : {interval: '1mo', range:'1y'},
+    "6m" : {interval: '6mo', range:'5y'},
+    "1y" : {interval: '1y', range:'5y'},    
+    
+}

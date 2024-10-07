@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Card from './Card';
-import { mockHistoricalData } from '../constants/mockData';
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, Bar, CartesianGrid, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { convertDateToUnixTimestamp,convertUnixTimestampToDate, createDate } from '../utils/date-helpers';
 import { fetchHistoricalData, fetchQuote } from '../api/stock-api';
 import StockContext from '../context/StockContext';
-import { chartConfig,chartFilterConfig } from '../constants/config';
-import ChartFilters from './ChartFilters';
+import { chartFilterConfig } from '../constants/config';
 import FilterContext from '../context/FilterContext';
 import ThemeContext from '../context/ThemeContext';
 
@@ -84,7 +81,7 @@ const Chart = () => {
       };
     useEffect(()=>{
         fetchYahooFinanceData();
-    },[stockSymbol,filter]);
+    },[stockSymbol, filter]);
   
   
 return (

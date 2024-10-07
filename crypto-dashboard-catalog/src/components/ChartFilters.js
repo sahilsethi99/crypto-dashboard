@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { chartConfig } from '../constants/config'
 import Filter from './Filters'
 import FilterContext from '../context/FilterContext'
-import { PlusIcon } from '@heroicons/react/solid'
 
 const ChartFilters = () => {
     

@@ -1,5 +1,4 @@
 const basePath = "https://query2.finance.yahoo.com/v1/finance";
-const basePath2 = "https://query2.finance.yahoo.com/v7/finance/"
 
 export const searchSymbols = async (query)=>{
     const url = `${basePath}/search?q=${query}`;

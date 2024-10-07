@@ -1,34 +1,56 @@
+import { chartFilterConfigAlphaVantage } from "../constants/config";
+
 const basePath = "https://query2.finance.yahoo.com/v1/finance";
 
 const baseUrl = "https://www.alphavantage.co/query";
-const apiKey = process.env.REACT_APP_API_KEY;  // Replace with your Alpha Vantage API key
+const API_KEY = process.env.REACT_APP_API_KEY;  // Replace with your Alpha Vantage API key
 
-export const fetchHistoricalData = async (symbol) => {
-    const url = `${baseUrl}?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`;
-    const response = await fetch(url);
+export const fetchHistoricalDataAlphaVantage = async (stockSymbol, filter) => {
+    const { function: functionName, interval } = chartFilterConfigAlphaVantage[filter];
+    // const API_KEY = 'YOUR_ALPHA_VANTAGE_API_KEY';
+    
+    // Create the API URL based on the selected function
+    let url = `https://www.alphavantage.co/query?function=${functionName}&symbol=${stockSymbol}&apikey=${API_KEY}`;
 
-    if (!response.ok) {
-        const message = `Some error occurred: ${response.status}`;
-        throw new Error(message);
+    // Append the interval for intraday functions
+    if (functionName.includes("INTRADAY")) {
+        url += `&interval=${interval}`;
     }
 
+    const response = await fetch(url);
     const data = await response.json();
 
-    if (data["Error Message"]) {
-        throw new Error("Invalid symbol or API error.");
+    // Process the response based on the function used
+    if (functionName === 'TIME_SERIES_INTRADAY') {
+        const { "Time Series (1min)": timeSeries } = data;
+        const formattedData = Object.entries(timeSeries).map(([timestamp, values]) => ({
+            date: new Date(timestamp).toLocaleDateString(),
+            high: parseFloat(values['2. high']),
+            low: parseFloat(values['3. low']),
+            volume: parseFloat(values['5. volume'])
+        }));
+        return formattedData;
+    } else if (functionName === 'TIME_SERIES_DAILY') {
+        const { "Time Series (Daily)": timeSeries } = data;
+        const formattedData = Object.entries(timeSeries).map(([timestamp, values]) => ({
+            date: new Date(timestamp).toLocaleDateString(),
+            high: parseFloat(values['2. high']),
+            low: parseFloat(values['3. low']),
+            volume: parseFloat(values['5. volume'])
+        }));
+        return formattedData;
+    } else if (functionName === 'TIME_SERIES_MONTHLY') {
+        const { "Monthly Time Series": timeSeries } = data;
+        const formattedData = Object.entries(timeSeries).map(([timestamp, values]) => ({
+            date: new Date(timestamp).toLocaleDateString(),
+            high: parseFloat(values['2. high']),
+            low: parseFloat(values['3. low']),
+            volume: parseFloat(values['5. volume'])
+        }));
+        return formattedData;
+    } else {
+        throw new Error('Unsupported function');
     }
-
-    // Process response into a similar format as Yahoo Finance API response
-    const timeSeries = data["Time Series (Daily)"];
-    const timestamps = Object.keys(timeSeries).reverse();  // Dates (most recent first)
-    const formattedData = timestamps.map((date) => ({
-        date: date,
-        high: parseFloat(timeSeries[date]["2. high"]),
-        low: parseFloat(timeSeries[date]["3. low"]),
-        volume: parseInt(timeSeries[date]["5. volume"])
-    }));
-
-    return formattedData; // Return data in the format needed for the chart
 };
 
 

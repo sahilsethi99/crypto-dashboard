@@ -20,3 +20,13 @@ export const chartFilterConfig = {
     "max" : {interval:'3mo', range:'10y'},    
     
 }
+
+export const chartFilterConfigAlphaVantage = { 
+    "1d" : { function: 'TIME_SERIES_INTRADAY', interval: '1min', range: '1d' },
+    "3d" : { function: 'TIME_SERIES_INTRADAY', interval: '5min', range: '3d' },
+    "1w" : { function: 'TIME_SERIES_INTRADAY', interval: '15min', range: '1w' },
+    "1m" : { function: 'TIME_SERIES_DAILY', range: '1mo' },
+    "6m" : { function: 'TIME_SERIES_DAILY', range: '6mo' },
+    "1y" : { function: 'TIME_SERIES_MONTHLY', range: '1y' },
+    "max" : { function: 'TIME_SERIES_MONTHLY', range: 'max' },    
+}

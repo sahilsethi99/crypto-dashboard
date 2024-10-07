@@ -2,14 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import Card from './Card';
 import { Area, Bar, CartesianGrid, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { fetchHistoricalData } from '../api/stock-api';  // Updated Alpha Vantage function
+import { fetchHistoricalData, fetchHistoricalDataAlphaVantage } from '../api/stock-api';  // Updated Alpha Vantage function
 import StockContext from '../context/StockContext';
 import FilterContext from '../context/FilterContext';
 import ThemeContext from '../context/ThemeContext';
+import { chartFilterConfigAlphaVantage } from '../constants/config';
 
 const Chart = () => {
     const { darkMode } = useContext(ThemeContext);
     const { stockSymbol } = useContext(StockContext);
+    const {filter} = useContext(FilterContext);
 
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length > 0) {
@@ -29,18 +31,21 @@ const Chart = () => {
 
     const fetchAlphaVantageData = async () => {
         try {
-            const data = await fetchHistoricalData(stockSymbol);
+          const { function: functionName } = chartFilterConfigAlphaVantage[filter];
+            const result = await fetchHistoricalDataAlphaVantage(stockSymbol, filter);;
             
             // Format price data (high and low)
-            const formattedPriceData = data.map(({ date, high, low }) => ({
-                date, high, low
-            }));
+            const formattedPriceData = result.map((data) => ({
+              date: data.date,
+              high: data.high,
+              low: data.low
+          }));
 
-            // Format volume data
-            const formattedVolumeData = data.map(({ date, volume }) => ({
-                date, volume
-            }));
-
+           // For volume, 
+           const formattedVolumeData = result.map((data) => ({
+            date: data.date,
+            volume: data.volume
+        }));
             setPriceData(formattedPriceData);
             setVolumeData(formattedVolumeData);
         } catch (error) {
@@ -50,7 +55,7 @@ const Chart = () => {
 
     useEffect(() => {
         fetchAlphaVantageData();
-    }, [stockSymbol]);
+    }, [filter, stockSymbol]);
 
     return (
         <Card>
